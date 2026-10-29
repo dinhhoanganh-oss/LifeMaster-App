@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>LIFE MASTER - Đinh Hoàng Anh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #090d16;
+      --surface: #111827;
+      --surface-elevated: #1e293b;
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --primary: #3b82f6;
+      --primary-light: #60a5fa;
+      --primary-glow: rgba(59, 130, 246, 0.35);
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.3);
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #64748b;
+      --gold: #fbbf24;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --nav-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: calc(var(--nav-height) + 20px);
+    }
+
+    /* Top App Bar */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: white;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+    .user-meta h1 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .user-meta p {
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .user-meta p::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .top-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--surface-elevated);
+      border: 1px solid var(--surface-border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: var(--primary);
+    }
+
+    /* Container */
+    .container {
+      padding: 16px 20px;
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-title {
+      font-size: 12px;
+      color: #93c5fd;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .hero-clock {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .stat-pill .val {
+      font-size: 16px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+    .stat-pill .lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Section Header */
+    .sec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .sec-head h2 {
+      font-size: 17px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sec-head .badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--primary-light);
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .card:active {
+      transform: scale(0.985);
+    }
+
+    /* Tabs Content Display */
+    .tab-view {
+      display: none;
+    }
+    .tab-view.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Daily View Items */
+    .time-slot {
+      display: flex;
+      gap: 14px;
+      position: relative;
+    }
+    .time-badge {
+      min-width: 88px;
+      background: var(--surface-elevated);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      text-align: center;
+      height: fit-content;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .time-badge .clock {
+      font-size: 12px;
+      font-weight: 700;
+      color: #60a5fa;
+    }
+    .time-badge .period {
+      font-size: 9px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .slot-body {
+      flex: 1;
+    }
+    .slot-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .slot-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+    .slot-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .slot-rule {
+      font-size: 11px;
+      color: var(--gold);
+      background: rgba(251, 191, 36, 0.08);
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Checkbox & Status */
+    .check-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 2px solid #475569;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .check-btn.checked {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* Habit Tracker Styles */
+    .habit-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+    }
+    .habit-info h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 3px;
+    }
+    .habit-info p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .habit-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 10px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .habit-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    /* Finance Styles */
+    .finance-overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .fin-box {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+    .fin-box .lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .fin-box .val {
+      font-size: 18px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+    .fin-box .growth {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .jar-card {
+      background: var(--surface-elevated);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .jar-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .jar-pct {
+      font-size: 11px;
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .jar-amt {
+      font-size: 14px;
+      font-weight: 800;
+      color: #f8fafc;
+      text-align: right;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-top: 1px solid var(--surface-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+    .nav-item i {
+      font-size: 18px;
+    }
+    .nav-item.active {
+      color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .nav-item.active i {
+      filter: drop-shadow(0 2px 8px var(--primary-glow));
+    }
+
+    /* Modal / Editor */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-sheet {
+      background: var(--surface);
+      width: 100%;
+      max-width: 600px;
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px 40px;
+      max-height: 85vh;
+      overflow-y: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .modal-head h3 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      background: var(--surface-elevated);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      color: white;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50px);
+      background: rgba(16, 185, 129, 0.95);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 3000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-bar">
+    <div class="user-profile">
+      <div class="avatar">HA</div>
+      <div class="user-meta">
+        <h1>Đinh Hoàng Anh</h1>
+        <p>Hệ Thống Quản Trị Cuộc Sống</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" onclick="requestNotificationPermission()" title="Nhắc nhở">
+        <i class="fa-regular fa-bell"></i>
+      </button>
+      <button class="icon-btn" onclick="exportData()" title="Sao lưu">
+        <i class="fa-solid fa-cloud-arrow-down"></i>
+      </button>
+      <button class="icon-btn" onclick="triggerImport()" title="Nhập dữ liệu">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+      </button>
+      <input type="file" id="importFileInput" style="display:none" onchange="handleImportFile(event)" accept=".json" />
+    </div>
+  </header>
+
+  <!-- Main App Content -->
+  <main class="container">
+
+    <!-- Hero Card -->
+    <section class="hero-banner">
+      <div class="hero-title"><i class="fa-solid fa-bolt"></i> Khung Giờ Hiện Tại</div>
+      <div class="hero-clock" id="liveClock">--:--:--</div>
+      <div id="currentSlotNotice" style="font-size: 13px; color: #bae6fd; font-weight: 600; margin-bottom: 6px;">
+        Đang tải lịch trình...
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <div class="val" id="todayProgress">0%</div>
+          <div class="lbl">Hôm Nay</div>
+        </div>
+        <div class="stat-pill">
+          <div class="val" id="monthlyRate">0%</div>
+          <div class="lbl">Tháng Này</div>
+        </div>
+        <div class="stat-pill">
+          <div class="val">+50%</div>
+          <div class="lbl">Mục Tiêu Thu</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1: KẾ HOẠCH HÀNG NGÀY (DAILY TIME-BLOCKING) -->
+    <section id="tab-daily" class="tab-view active">
+      <div class="sec-head">
+        <h2><i class="fa-regular fa-calendar-check" style="color:#38bdf8"></i> Thời Gian Biểu Hôm Nay</h2>
+        <span class="badge" id="dailyDate">Hôm nay</span>
+      </div>
+      <div id="dailyScheduleList"></div>
+    </section>
+
+    <!-- TAB 2: THEO DÕI THÓI QUEN (HABIT TRACKER 31 NGÀY) -->
+    <section id="tab-habit" class="tab-view">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-chart-line" style="color:#10b981"></i> Thói Quen Cốt Lõi</h2>
+        <span class="badge" id="habitDaysCompleted">19 Thói quen</span>
+      </div>
+      <div id="habitList"></div>
+    </section>
+
+    <!-- TAB 3: QUẢN TRỊ TÀI CHÍNH (FINANCE & 5 HŨ) -->
+    <section id="tab-finance" class="tab-view">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-wallet" style="color:#f59e0b"></i> Dòng Tiền & 5 Hũ</h2>
+        <button class="badge" onclick="openIncomeModal()" style="border:none; cursor:pointer;">
+          <i class="fa-solid fa-pen"></i> Chỉnh sửa
+        </button>
+      </div>
+
+      <div class="finance-overview">
+        <div class="fin-box">
+          <div class="lbl">Tổng Thu Hiện Tại</div>
+          <div class="val" id="totalIncomeDisplay">245 tr</div>
+          <div class="growth"><i class="fa-solid fa-arrow-trend-up"></i> +15.6% vs kỳ trước</div>
+        </div>
+        <div class="fin-box">
+          <div class="lbl">Mục Tiêu Tăng Trưởng</div>
+          <div class="val">50.0%</div>
+          <div class="growth" style="color:#38bdf8;"><i class="fa-solid fa-bullseye"></i> 318 tr/tháng</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 16px;">
+        <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #f1f5f9;">
+          <i class="fa-solid fa-pie-chart" style="color:#38bdf8;"></i> Phân Bổ 5 Hũ Tài Chính Chuẩn Xác
+        </h3>
+        <div id="jarsList"></div>
+      </div>
+
+      <div class="card" style="margin-bottom: 16px;">
+        <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #f1f5f9;">
+          <i class="fa-solid fa-hands-holding-heart" style="color:#ec4899;"></i> Nghĩa Vụ Phụng Dưỡng Cố Định
+        </h3>
+        <div id="obligationList"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #f1f5f9;">
+          <i class="fa-solid fa-money-bill-transfer" style="color:#10b981;"></i> 6 Dòng Thu Nhập Chi Tiết
+        </h3>
+        <div id="incomeStreamList"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: MỤC TIÊU NĂM (YEARLY ROADMAP) -->
+    <section id="tab-yearly" class="tab-view">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-flag-checkered" style="color:#818cf8"></i> Mục Tiêu Chiến Lược Năm</h2>
+        <span class="badge">21 Chỉ Tiêu</span>
+      </div>
+      <div id="yearlyGoalsList"></div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('daily', this)">
+      <i class="fa-regular fa-clock"></i>
+      <span>Lịch Ngày</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('habit', this)">
+      <i class="fa-solid fa-check-double"></i>
+      <span>Thói Quen</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('finance', this)">
+      <i class="fa-solid fa-sack-dollar"></i>
+      <span>Tài Chính</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('yearly', this)">
+      <i class="fa-solid fa-bullseye"></i>
+      <span>Mục Tiêu</span>
+    </div>
+  </nav>
+
+  <!-- Edit Task Modal -->
+  <div class="modal-backdrop" id="editModal">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h3 id="modalTitle">Chỉnh Sửa Nội Dung</h3>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <input type="hidden" id="editItemId" />
+      <input type="hidden" id="editItemType" />
+      <div class="form-group">
+        <label>Tiêu đề / Nhiệm vụ</label>
+        <input type="text" id="editItemTitle" />
+      </div>
+      <div class="form-group">
+        <label>Mục tiêu / Tiêu chuẩn hoàn thành</label>
+        <textarea id="editItemDesc" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Nguyên tắc / Ghi chú</label>
+        <input type="text" id="editItemRule" />
+      </div>
+      <button class="btn-primary" onclick="saveItemChanges()">Lưu Cập Nhật</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMessage">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastText">Đã cập nhật thành công!</span>
+  </div>
+
+  <script>
+    // INITIAL DATA FROM USER'S EXCEL FILE
+    const defaultData = {
+      dailySchedule: [
+        { id: 1, time: "05:30 - 06:30", period: "Buổi sáng sớm", field: "Rèn luyện bản thân", title: "Chạy bộ thể dục 3-5 km", desc: "Hoàn thành 3-5km trong 60 phút, khởi động kỹ", rule: "Dậy sớm dứt khoát, không bấm hoãn báo thức", done: false },
+        { id: 2, time: "06:30 - 07:15", period: "Buổi sáng", field: "Gia đình & Cá nhân", title: "Vệ sinh cá nhân, ăn sáng, việc nhà", desc: "Nhà cửa gọn gàng, khởi động ngày mới tràn đầy năng lượng", rule: "Tập trung, nhanh nhẹn", done: false },
+        { id: 3, time: "07:15 - 07:45", period: "Buổi sáng", field: "Gia đình nhỏ", title: "Đưa con đi học & di chuyển đến nơi làm việc", desc: "Đúng giờ học của con, an toàn giao thông", rule: "Vui vẻ kết nối cùng con", done: false },
+        { id: 4, time: "08:00 - 11:45", period: "Sáng - Giờ làm việc", field: "Sự nghiệp & Chuyên môn", title: "Tập trung giải quyết nhiệm vụ chính tại cơ quan", desc: "Xử lý dứt điểm 1-2 việc quan trọng nhất trong ngày", rule: "Tập trung đơn nhiệm, dẹp thông báo rác", done: false },
+        { id: 5, time: "11:45 - 13:30", period: "Buổi trưa", field: "Hồi phục & Trí tuệ", title: "Ăn trưa, nghỉ ngơi 30p; Đọc tài liệu / Kế toán thuế", desc: "Nạp năng lượng, cập nhật quy định kế toán DN & hộ KD", rule: "Ăn uống lành mạnh, ngủ trưa ngắn", done: false },
+        { id: 6, time: "13:30 - 17:00", period: "Chiều - Giờ làm việc", field: "Sự nghiệp & Vận hành", title: "Xử lý công việc hành chính & Điều hành chuỗi KD", desc: "Duy trì hoạt động KS Phố Cổ, Home Sa Pa, đồ lưu niệm", rule: "Bám sát tiến độ, hỗ trợ nhân sự", done: false },
+        { id: 7, time: "17:00 - 18:00", period: "Chiều muộn", field: "Kỹ năng & Sở thích", title: "Học kỹ thuật sửa chữa máy ảnh film (1h/ngày)", desc: "Thực hành tháo lắp, lau lens, căn chỉnh màn trập, cơ tốc", rule: "Rèn tính kiên nhẫn, tỉ mỉ", done: false },
+        { id: 8, time: "18:00 - 19:00", period: "Khung giờ vàng GD", field: "Hạnh phúc Gia đình", title: "Đi chợ, nấu nướng, cả nhà quây quần ăn tối", desc: "Bữa cơm gia đình ấm áp, chia sẻ chuyện trong ngày", rule: "Không dùng điện thoại trong bữa ăn", done: false },
+        { id: 9, time: "19:00 - 20:00", period: "Khung giờ vàng GD", field: "Hạnh phúc Gia đình", title: "Học cùng con (1 giờ trọn vẹn)", desc: "Kiểm tra bài vở, cùng con giải toán/tiếng Anh, khích lệ con", rule: "Kiên nhẫn, lắng nghe và đồng hành", done: false },
+        { id: 10, time: "20:00 - 20:30", period: "Khung giờ vàng GD", field: "Gia đình & Bản thân", title: "Đọc sách cùng con / đọc sách cá nhân (30p)", desc: "Duy trì văn hóa đọc sách mỗi ngày, mở mang tri thức", rule: "Không gian yên tĩnh", done: false },
+        { id: 11, time: "20:30 - 21:00", period: "Khung giờ vàng GD", field: "Gia đình & Bản thân", title: "Thể thao nhẹ tại nhà / Vận động cùng con (30p)", desc: "Giúp cơ thể thư giãn, tiêu hóa tốt, gắn kết gia đình", rule: "Vui vẻ, thoải mái", done: false },
+        { id: 12, time: "21:00 - 22:30", period: "Buổi tối - Nâng cao", field: "Rèn luyện bản thân", title: "Luyện thi IELTS mục tiêu 7.0 (1.5h)", desc: "Tập trung Writing & Listening học thuật, chuẩn bị NCS Luật", rule: "Kỷ luật cao độ, không xao nhãng", done: false },
+        { id: 13, time: "22:30 - 23:00", period: "Tổng kết ngày", field: "Quản trị bản thân", title: "Kiểm tra dòng tiền Thu-Chi; Nhật ký Recap ngày", desc: "Ghi chép chi tiêu, đánh giá kỷ luật ngày, bỏ tật xấu", rule: "Trung thực với bản thân, ngủ trước 23h15", done: false }
+      ],
+      habits: [
+        { id: 1, field: "Rèn luyện bản thân", title: "Chạy bộ thể dục", target: "3-5 km / 1h", desc: "Mỗi sáng / chiều tối", completedDays: 5, goalDays: 31 },
+        { id: 2, field: "Rèn luyện bản thân", title: "Đá bóng rèn thể lực", target: "1 trận / tuần", desc: "17h30-19h30 Chủ Nhật", completedDays: 4, goalDays: 4 },
+        { id: 3, field: "Rèn luyện bản thân", title: "Học tiếng Anh IELTS 7.0", target: "1 - 1.5h / ngày", desc: "Từ vựng, Nghe, Viết học thuật", completedDays: 5, goalDays: 31 },
+        { id: 4, field: "Rèn luyện bản thân", title: "Đọc sách phát triển tư duy", target: "30 phút", desc: "Thể loại tùy chọn mỗi tối", completedDays: 5, goalDays: 31 },
+        { id: 5, field: "Rèn luyện bản thân", title: "Học kỹ thuật sửa máy ảnh film", target: "1h / ngày", desc: "Thực hành tháo lắp, căn chỉnh cơ", completedDays: 0, goalDays: 31 },
+        { id: 6, field: "Rèn luyện bản thân", title: "Nghiệp vụ Thuế & Kế toán", target: "30 - 45 phút", desc: "Kế toán KS 9-10 phòng & Hộ KD", completedDays: 0, goalDays: 31 },
+        { id: 7, field: "Rèn luyện bản thân", title: "Dậy sớm & Tập trung đơn nhiệm", target: "Trước 6h00", desc: "Không đa nhiệm, làm dứt điểm từng việc", completedDays: 5, goalDays: 31 },
+        { id: 8, field: "Rèn luyện bản thân", title: "Kỷ luật thân tâm (Bỏ tật xấu)", target: "Cả ngày", desc: "Quyết tâm giữ kỷ luật nghiêm ngặt", completedDays: 0, goalDays: 31 },
+        { id: 9, field: "Hạnh phúc Gia đình", title: "Khung giờ vàng cho con (Học)", target: "1h / tối", desc: "Đồng hành, hướng dẫn con học bài", completedDays: 5, goalDays: 31 },
+        { id: 10, field: "Hạnh phúc Gia đình", title: "Khung giờ vàng cho con (Đọc/Chơi)", target: "30p đọc + 30p vận động", desc: "Đọc truyện, trò chuyện, thể thao", completedDays: 5, goalDays: 31 },
+        { id: 11, field: "Hạnh phúc Gia đình", title: "Chia sẻ việc nhà (Đi chợ, Nấu ăn)", target: "Hàng ngày", desc: "Cùng vợ chuẩn bị bữa cơm ấm cúng", completedDays: 5, goalDays: 31 },
+        { id: 12, field: "Hạnh phúc Gia đình", title: "Chia sẻ việc nhà (Dọn dẹp)", target: "Hàng ngày", desc: "Rửa bát, lau dọn, nhà cửa gọn gàng", completedDays: 5, goalDays: 31 },
+        { id: 13, field: "Hạnh phúc Gia đình", title: "Thăm mẹ Thêu & Gọi điện", target: "1 lần/tuần thăm, 3 ngày/lần gọi", desc: "Hỏi han sức khỏe, hiếu nghĩa", completedDays: 0, goalDays: 12 },
+        { id: 14, field: "Công việc & Sự nghiệp", title: "Hoàn thành nhiệm vụ công việc chính", target: "Khung giờ vàng", desc: "Xử lý hồ sơ, chuẩn hóa thủ tục đúng hạn", completedDays: 5, goalDays: 31 },
+        { id: 15, field: "Công việc & Sự nghiệp", title: "Giám sát vận hành Homestay Sa Pa", target: "Hàng ngày", desc: "Kiểm soát lịch phòng, khách Tây, doanh thu", completedDays: 0, goalDays: 31 },
+        { id: 16, field: "Công việc & Sự nghiệp", title: "Giám sát bán lẻ lưu niệm Sa Pa", target: "Hàng ngày", desc: "Doanh số bán hàng, tồn kho thủ công", completedDays: 0, goalDays: 31 },
+        { id: 17, field: "Công việc & Sự nghiệp", title: "Bảo dưỡng & Bán máy ảnh film", target: "Hàng tuần", desc: "Chụp test máy, đăng bài, tư vấn khách", completedDays: 0, goalDays: 4 },
+        { id: 18, field: "Kiểm soát Tài chính", title: "Ghi chép dòng tiền Thu - Chi", target: "Hàng ngày", desc: "Kiểm soát chi tiêu cá nhân <20%, GD 30%", completedDays: 5, goalDays: 31 },
+        { id: 19, field: "Kiểm soát Tài chính", title: "Trích lập quỹ tích lũy & đầu tư", target: "Ngày nhận thu nhập", desc: "10% Rủi ro, 10% Tiết kiệm, 30% Đầu tư", completedDays: 0, goalDays: 1 }
+      ],
+      finances: {
+        totalIncomeCurrent: 245000000,
+        totalIncomePrev: 212000000,
+        inflowStreams: [
+          { name: "Lương & Phụ cấp cơ quan", nature: "Cố định hàng tháng", prev: 24000000, cur: 25000000, note: "Ổn định, đúng kỳ" },
+          { name: "Khách sạn Phố Cổ (9 phòng)", nature: "Dòng tiền kinh doanh lưu trú", prev: 50000000, cur: 75000000, note: "Tối ưu công suất phòng, quản lý thuế" },
+          { name: "Homestay Sa Pa", nature: "Du lịch & lưu trú trải nghiệm", prev: 8000000, cur: 10000000, note: "Quy chuẩn hóa dịch vụ đón tiếp" },
+          { name: "Bán lẻ lưu niệm Sa Pa cho khách Tây", nature: "Bán hàng thổ cẩm, thủ công mỹ nghệ", prev: 25000000, cur: 30000000, note: "Đa dạng hóa sản phẩm, tối ưu biên lãi" },
+          { name: "Đầu tư Bất động sản", nature: "Lãi vốn & Dòng tiền cho thuê/đầu tư", prev: 100000000, cur: 100000000, note: "Nghiên cứu cơ hội Cao Bằng, Hà Giang" },
+          { name: "Kinh doanh & Sửa máy ảnh film", nature: "Sở thích tạo dòng tiền", prev: 5000000, cur: 5000000, note: "Nâng cao tay nghề sửa máy, bán kèm combo" }
+        ],
+        jars: [
+          { name: "Chi phí sinh hoạt gia đình", pct: 0.30, desc: "Ăn uống, điện nước, học phí con, mua sắm nhu yếu phẩm", rule: "Cố định trần 30%, không vượt quá ngân sách" },
+          { name: "Chi tiêu cá nhân", pct: 0.20, desc: "Xăng xe, ăn trưa, cà phê, sở thích máy film, cá nhân", rule: "Tối đa 20%, chủ động tiết kiệm để dư ngân sách" },
+          { name: "Quỹ dự phòng rủi ro", pct: 0.10, desc: "Bảo hiểm, quỹ khẩn cấp 6 tháng chi phí, y tế đột xuất", rule: "Bắt buộc trích lập 10% ngay khi có dòng thu" },
+          { name: "Quỹ tiết kiệm dự phòng", pct: 0.10, desc: "Tích lũy thanh khoản cao, gửi tiết kiệm kỳ hạn linh hoạt", rule: "Giữ vốn an toàn, tạo đệm tài chính vững chắc" },
+          { name: "Quỹ tái đầu tư sinh lời", pct: 0.30, desc: "Đầu tư BĐS, mở rộng Home Cao Bằng/Hà Giang, vốn máy film", rule: "Tối thiểu 30% phục vụ tăng trưởng tài sản dài hạn" }
+        ],
+        obligations: [
+          { item: "Phụng dưỡng sinh hoạt hàng tháng", who: "Mẹ Thêu (bên nội)", amt: 7000000, freq: "1 tháng / lần", yearEst: 84000000 },
+          { item: "Quà biếu các dịp Lễ, Tết", who: "Mẹ Thêu (nội), Mẹ Thanh (ngoại)", amt: 25000000, freq: "Các dịp Lễ Tết lớn", yearEst: 25000000 },
+          { item: "Đóng góp các dịp giỗ chạp dòng họ", who: "Gia đình dòng họ nội ngoại", amt: 10000000, freq: "Theo sự kiện thực tế", yearEst: 10000000 }
+        ]
+      },
+      yearlyGoals: [
+        { id: 1, field: "I. Rèn luyện bản thân", group: "Sức khỏe & Vận động", kpi: "Chạy bộ 3-5km/ngày (1h); Đá bóng tối CN", plan: "Duy trì chạy bộ hàng ngày; tham gia đá bóng 17h30-19h30 Chủ Nhật", freq: "Hàng ngày & CN", status: "Đang duy trì" },
+        { id: 2, field: "I. Rèn luyện bản thân", group: "Sức khỏe y tế", kpi: "Khám sức khỏe tổng quát định kỳ", plan: "Đặt lịch khám tổng quát chuyên sâu toàn diện 1 năm/lần", freq: "Tháng 4 hàng năm", status: "Kế hoạch T4" },
+        { id: 3, field: "I. Rèn luyện bản thân", group: "Ngoại ngữ (IELTS)", kpi: "Đạt chứng chỉ IELTS 7.0 (từ nền 5.0)", plan: "Học bổ trợ nghe, nói, đọc, viết; phục vụ tuyển sinh Tiến sĩ Luật", freq: "Năm 2026 - 2027", status: "Đang học" },
+        { id: 4, field: "I. Rèn luyện bản thân", group: "Nghiệp vụ chuyên môn", kpi: "Nắm chắc Thuế & Kế toán DN vừa/nhỏ, KS & Hộ KD", plan: "Nghiên cứu sổ sách, thuế khách sạn 9-10 phòng & hộ KD Sa Pa", freq: "Hàng tháng", status: "Đang tự học" },
+        { id: 5, field: "I. Rèn luyện bản thân", group: "Học thuật cao cấp", kpi: "Làm Nghiên cứu sinh / Tiến sĩ ngành Luật", plan: "Chuẩn bị đề cương nghiên cứu, công bố khoa học (3/2027 - 3/2030)", freq: "3/2027 - 3/2030", status: "Chuẩn bị đề cương" },
+        { id: 6, field: "I. Rèn luyện bản thân", group: "Trí tuệ & Kỹ thuật", kpi: "Đọc sách 30p/ngày; Học sửa máy ảnh film 1h/ngày", plan: "Tạo góc kỹ thuật máy film, đọc sách tư duy mỗi tối", freq: "Hàng ngày", status: "Đang rèn luyện" },
+        { id: 7, field: "I. Rèn luyện bản thân", group: "Luyện tâm & Kỷ luật", kpi: "Dậy sớm, tập trung đơn nhiệm, bỏ tật xấu", plan: "Xây dựng thói quen ngủ sớm dậy sớm; thực hành kỷ luật thân tâm", freq: "Hàng ngày", status: "Kỷ luật nghiêm" },
+        { id: 8, field: "II. Công việc & Sự nghiệp", group: "Trọng tâm chuyên môn", kpi: "Chuẩn hóa hồ sơ, pháp lý & tài chính cá nhân", plan: "Đạt chuẩn ngoại ngữ IELTS 7.0; làm chủ kế toán thuế", freq: "Năm 2026 - 2027", status: "Đang thực hiện" },
+        { id: 9, field: "II. Công việc & Sự nghiệp", group: "Kinh doanh & Vận hành", kpi: "Hoàn thiện quy trình quản lý Homestay Sa Pa", plan: "Quy chuẩn đón tiếp, buồng phòng, nhân sự tại The Culture Concept", freq: "Q1 - Q2", status: "Đang chuẩn hóa" },
+        { id: 10, field: "II. Công việc & Sự nghiệp", group: "Kinh doanh & Bán lẻ", kpi: "Chuẩn hóa quy trình bán lẻ cho khách Tây", plan: "Tối ưu nguồn hàng thổ cẩm mỹ nghệ; đào tạo kỹ năng bán hàng", freq: "Hàng tháng", status: "Đang vận hành" },
+        { id: 11, field: "II. Công việc & Sự nghiệp", group: "Kinh doanh thiết bị", kpi: "Xây dựng quy trình kinh doanh máy ảnh film", plan: "Tuyển chọn, thẩm định, bảo dưỡng sửa chữa và quy trình bán lẻ", freq: "Hàng tháng", status: "Đang mở rộng" },
+        { id: 12, field: "II. Công việc & Sự nghiệp", group: "Mở rộng thị trường", kpi: "Khảo sát đầu tư Homestay tại Cao Bằng & Hà Giang", plan: "Khảo sát vị trí, phân tích pháp lý, bài toán tài chính và suất đầu tư", freq: "Q3 - Q4", status: "Nghiên cứu" },
+        { id: 13, field: "III. Kiểm soát Tài chính", group: "Mục tiêu thu nhập", kpi: "Tăng trưởng tổng thu nhập +50%/năm", plan: "Đẩy mạnh 6 dòng thu: Lương, KS Phố Cổ, Home Sa Pa, Lưu niệm, BĐS, Máy ảnh", freq: "Cả năm", status: "Theo dõi sát" },
+        { id: 14, field: "III. Kiểm soát Tài chính", group: "Phân bổ dòng chi", kpi: "Kiểm soát chi phí sinh hoạt & cá nhân", plan: "Chi sinh hoạt gia đình 30%; Chi tiêu cá nhân tối đa 20% tổng thu", freq: "Hàng tháng", status: "Đúng tỷ lệ" },
+        { id: 15, field: "III. Kiểm soát Tài chính", group: "Tích lũy & Đầu tư", kpi: "Kỷ luật phân bổ 50% thặng dư tài chính", plan: "Trích lập 10% Quỹ rủi ro; 10% Quỹ tiết kiệm; 30% Quỹ tái đầu tư", freq: "Hàng tháng", status: "Tự động trích lập" },
+        { id: 16, field: "IV. Hạnh phúc Gia đình", group: "Khung giờ vàng GD", kpi: "18h00 - 21h00 trọn vẹn cho gia đình nhỏ", plan: "Dạy con học (1h), cùng đọc sách (30p), vận động/thể thao (30p)", freq: "Mỗi ngày", status: "Cam kết thực hiện" },
+        { id: 17, field: "IV. Hạnh phúc Gia đình", group: "Trách nhiệm gia đình", kpi: "Đảm nhiệm các công việc gia đình thiết yếu", plan: "Đi chợ, nấu ăn, dọn dẹp nhà cửa ngăn nắp và kèm con học mỗi ngày", freq: "Hàng ngày", status: "Đang thực hiện" },
+        { id: 18, field: "IV. Hạnh phúc Gia đình", group: "Du lịch & Dã ngoại", kpi: "Tối thiểu 4 chuyến Resort + Dã ngoại 1 lần/tháng", plan: "Săn deal resort giá tốt cho cả nhà 4 lần/năm; cuối tuần leo núi dã ngoại", freq: "Tháng & Quý", status: "Lên kế hoạch" },
+        { id: 19, field: "IV. Hạnh phúc Gia đình", group: "Phụng dưỡng mẹ Thêu", kpi: "Chu toàn trách nhiệm phụng dưỡng, hiếu nghĩa", plan: "Thăm mẹ 1 lần/tuần; gọi điện 3 ngày/lần; phụng dưỡng 7 tr/tháng; lễ tết", freq: "Định kỳ tuần/tháng", status: "Đều đặn" },
+        { id: 20, field: "V. Quan hệ & Xã hội", group: "Bạn bè & Tri thức", kpi: "Gặp gỡ nhóm bạn thân vừa phải 2 tháng/lần", plan: "Duy trì cà phê trao đổi kinh nghiệm cuộc sống, đầu tư và cơ hội hợp tác", freq: "2 tháng/lần", status: "Theo lịch" },
+        { id: 21, field: "V. Quan hệ & Xã hội", group: "Cộng đồng & Xã hội", kpi: "Chưa triển khai kế hoạch lớn trong năm nay", plan: "Tạm thời tập trung nguồn lực phát triển bản thân, gia đình và chuẩn hóa KD", freq: "Dự phòng", status: "Chờ thời điểm" }
+      ]
+    };
+
+    // State management
+    let appState = JSON.parse(localStorage.getItem('LIFE_MASTER_HOANGANH')) || defaultData;
+
+    function saveState() {
+      localStorage.setItem('LIFE_MASTER_HOANGANH', JSON.stringify(appState));
+      updateUI();
+    }
+
+    // Switch Tabs
+    function switchTab(tabKey, element) {
+      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('tab-' + tabKey).classList.add('active');
+      element.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Format Currency
+    function formatVND(num) {
+      return new Intl.NumberFormat('vi-VN').format(num) + ' đ';
+    }
+
+    // Realtime Clock & Active Slot Detector
+    function updateLiveClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('liveClock').textContent = timeStr;
+
+      const dateStr = now.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
+      document.getElementById('dailyDate').textContent = dateStr;
+
+      // Detect current time block
+      const curHour = now.getHours();
+      const curMin = now.getMinutes();
+      const totalMinutes = curHour * 60 + curMin;
+
+      let matchedSlot = null;
+      for (const slot of appState.dailySchedule) {
+        const parts = slot.time.split(' - ');
+        const [hStart, mStart] = parts[0].split(':').map(Number);
+        const [hEnd, mEnd] = parts[1].split(':').map(Number);
+        const startMin = hStart * 60 + mStart;
+        const endMin = hEnd * 60 + mEnd;
+
+        if (totalMinutes >= startMin && totalMinutes <= endMin) {
+          matchedSlot = slot;
+          break;
+        }
+      }
+
+      const noticeElem = document.getElementById('currentSlotNotice');
+      if (matchedSlot) {
+        noticeElem.innerHTML = `<span style="color:#10b981;">● Đang diễn ra:</span> <strong>${matchedSlot.title}</strong> (${matchedSlot.time})`;
+      } else {
+        noticeElem.innerHTML = `<span>Thư giãn hoặc chuẩn bị công tác tiếp theo</span>`;
+      }
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    // Render Daily Schedule
+    function renderDaily() {
+      const container = document.getElementById('dailyScheduleList');
+      container.innerHTML = '';
+
+      let doneCount = 0;
+      appState.dailySchedule.forEach(item => {
+        if (item.done) doneCount++;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.opacity = item.done ? '0.65' : '1';
+
+        card.innerHTML = `
+          <div class="time-slot">
+            <div class="time-badge">
+              <div class="clock">${item.time}</div>
+              <div class="period">${item.period}</div>
+            </div>
+            <div class="slot-body">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                  <div class="slot-tag">${item.field}</div>
+                  <div class="slot-title" style="${item.done ? 'text-decoration: line-through;' : ''}">${item.title}</div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <button class="icon-btn" style="width:28px; height:28px; font-size:11px;" onclick="openEditModal('daily', ${item.id})">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button class="check-btn ${item.done ? 'checked' : ''}" onclick="toggleDailyItem(${item.id})">
+                    ${item.done ? '<i class="fa-solid fa-check"></i>' : ''}
+                  </button>
+                </div>
+              </div>
+              <div class="slot-desc">${item.desc}</div>
+              <div class="slot-rule"><i class="fa-solid fa-circle-exclamation"></i> ${item.rule}</div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      const pct = Math.round((doneCount / appState.dailySchedule.length) * 100);
+      document.getElementById('todayProgress').textContent = pct + '%';
+    }
+
+    function toggleDailyItem(id) {
+      const item = appState.dailySchedule.find(i => i.id === id);
+      if (item) {
+        item.done = !item.done;
+        saveState();
+        showToast(item.done ? "Tuyệt vời! Đã hoàn thành một tác vụ." : "Đã chuyển về trạng thái đang làm");
+      }
+    }
+
+    // Render Habits
+    function renderHabits() {
+      const container = document.getElementById('habitList');
+      container.innerHTML = '';
+
+      let totalRateSum = 0;
+
+      appState.habits.forEach(item => {
+        const rate = Math.min(100, Math.round((item.completedDays / item.goalDays) * 100));
+        totalRateSum += rate;
+
+        const card = document.createElement('div');
+        card.className = 'card habit-item';
+        card.innerHTML = `
+          <div style="flex:1;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <span style="font-size:10px; color:#38bdf8; font-weight:700; text-transform:uppercase;">${item.field}</span>
+                <h3 style="font-size:14px; font-weight:700; margin-top:2px;">${item.title}</h3>
+              </div>
+              <span style="font-size:13px; font-weight:800; color:${rate >= 80 ? '#10b981' : rate >= 50 ? '#38bdf8' : '#f59e0b'};">
+                ${rate}%
+              </span>
+            </div>
+            <p style="font-size:11px; color:#94a3b8; margin:4px 0;">Mục tiêu: <strong>${item.target}</strong> (${item.desc})</p>
+            <div class="habit-progress-bar">
+              <div class="habit-progress-fill" style="width: ${rate}%;"></div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; margin-left:12px;">
+            <button class="icon-btn" style="width:32px; height:32px;" onclick="adjustHabit(${item.id}, -1)">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <span style="font-weight:800; font-size:14px; min-width:26px; text-align:center;">${item.completedDays}</span>
+            <button class="icon-btn" style="width:32px; height:32px; background:var(--primary);" onclick="adjustHabit(${item.id}, 1)">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      const avgRate = Math.round(totalRateSum / appState.habits.length);
+      document.getElementById('monthlyRate').textContent = avgRate + '%';
+    }
+
+    function adjustHabit(id, delta) {
+      const habit = appState.habits.find(h => h.id === id);
+      if (habit) {
+        habit.completedDays = Math.max(0, Math.min(habit.goalDays, habit.completedDays + delta));
+        saveState();
+        showToast(`Đã cập nhật: ${habit.title} (${habit.completedDays}/${habit.goalDays} ngày)`);
+      }
+    }
+
+    // Render Finance
+    function renderFinance() {
+      const fin = appState.finances;
+      const totalCur = fin.totalIncomeCurrent;
+      document.getElementById('totalIncomeDisplay').textContent = (totalCur / 1000000).toFixed(1) + ' tr';
+
+      // 5 Jars
+      const jarContainer = document.getElementById('jarsList');
+      jarContainer.innerHTML = '';
+      fin.jars.forEach(jar => {
+        const amt = totalCur * jar.pct;
+        const box = document.createElement('div');
+        box.className = 'jar-card';
+        box.innerHTML = `
+          <div>
+            <div class="jar-name">${jar.name}</div>
+            <div class="jar-pct">${Math.round(jar.pct * 100)}% tổng thu • ${jar.desc}</div>
+          </div>
+          <div>
+            <div class="jar-amt">${formatVND(amt)}</div>
+            <div style="font-size:10px; color:#10b981; text-align:right;">${jar.rule.substring(0, 26)}...</div>
+          </div>
+        `;
+        jarContainer.appendChild(box);
+      });
+
+      // Obligations
+      const obContainer = document.getElementById('obligationList');
+      obContainer.innerHTML = '';
+      fin.obligations.forEach(ob => {
+        const box = document.createElement('div');
+        box.className = 'jar-card';
+        box.style.borderLeft = '3px solid #ec4899';
+        box.innerHTML = `
+          <div>
+            <div class="jar-name">${ob.item}</div>
+            <div class="jar-pct">${ob.who} • ${ob.freq}</div>
+          </div>
+          <div>
+            <div class="jar-amt">${formatVND(ob.amt)}</div>
+            <div style="font-size:10px; color:#94a3b8; text-align:right;">Năm: ${formatVND(ob.yearEst)}</div>
+          </div>
+        `;
+        obContainer.appendChild(box);
+      });
+
+      // Inflows
+      const inContainer = document.getElementById('incomeStreamList');
+      inContainer.innerHTML = '';
+      fin.inflowStreams.forEach(stream => {
+        const growth = ((stream.cur - stream.prev) / stream.prev * 100).toFixed(1);
+        const box = document.createElement('div');
+        box.className = 'jar-card';
+        box.style.borderLeft = '3px solid #38bdf8';
+        box.innerHTML = `
+          <div>
+            <div class="jar-name">${stream.name}</div>
+            <div class="jar-pct">${stream.nature} • ${stream.note}</div>
+          </div>
+          <div>
+            <div class="jar-amt">${formatVND(stream.cur)}</div>
+            <div style="font-size:10px; color:${growth >= 0 ? '#10b981' : '#ef4444'}; text-align:right;">
+              ${growth >= 0 ? '+' : ''}${growth}% (Kỳ trước: ${(stream.prev/1000000).toFixed(0)}tr)
+            </div>
+          </div>
+        `;
+        inContainer.appendChild(box);
+      });
+    }
+
+    // Render Yearly Goals
+    function renderYearlyGoals() {
+      const container = document.getElementById('yearlyGoalsList');
+      container.innerHTML = '';
+
+      appState.yearlyGoals.forEach(goal => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <span style="font-size:10px; color:#818cf8; font-weight:700; text-transform:uppercase;">${goal.field} • ${goal.group}</span>
+              <h3 style="font-size:14px; font-weight:700; color:#ffffff; margin:3px 0;">${goal.kpi}</h3>
+            </div>
+            <span class="badge" style="background:rgba(99, 102, 241, 0.15); color:#a5b4fc; white-space:nowrap;">${goal.status}</span>
+          </div>
+          <p style="font-size:12px; color:#94a3b8; margin:6px 0; line-height:1.4;">${goal.plan}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+            <span style="font-size:11px; color:#38bdf8;"><i class="fa-regular fa-clock"></i> ${goal.freq}</span>
+            <button class="icon-btn" style="width:28px; height:28px; font-size:11px;" onclick="openEditModal('yearly', ${goal.id})">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Modal Edit Functions
+    function openEditModal(type, id) {
+      document.getElementById('editItemType').value = type;
+      document.getElementById('editItemId').value = id;
+
+      if (type === 'daily') {
+        const item = appState.dailySchedule.find(i => i.id === id);
+        document.getElementById('modalTitle').textContent = "Chỉnh sửa Lịch: " + item.time;
+        document.getElementById('editItemTitle').value = item.title;
+        document.getElementById('editItemDesc').value = item.desc;
+        document.getElementById('editItemRule').value = item.rule;
+      } else if (type === 'yearly') {
+        const goal = appState.yearlyGoals.find(g => g.id === id);
+        document.getElementById('modalTitle').textContent = "Chỉnh sửa Mục tiêu Năm";
+        document.getElementById('editItemTitle').value = goal.kpi;
+        document.getElementById('editItemDesc').value = goal.plan;
+        document.getElementById('editItemRule').value = goal.freq + ' | ' + goal.status;
+      }
+
+      document.getElementById('editModal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').classList.remove('open');
+    }
+
+    function saveItemChanges() {
+      const type = document.getElementById('editItemType').value;
+      const id = parseInt(document.getElementById('editItemId').value);
+      const title = document.getElementById('editItemTitle').value;
+      const desc = document.getElementById('editItemDesc').value;
+      const rule = document.getElementById('editItemRule').value;
+
+      if (type === 'daily') {
+        const item = appState.dailySchedule.find(i => i.id === id);
+        if (item) {
+          item.title = title;
+          item.desc = desc;
+          item.rule = rule;
+        }
+      } else if (type === 'yearly') {
+        const goal = appState.yearlyGoals.find(g => g.id === id);
+        if (goal) {
+          goal.kpi = title;
+          goal.plan = desc;
+          const parts = rule.split('|');
+          if (parts[0]) goal.freq = parts[0].trim();
+          if (parts[1]) goal.status = parts[1].trim();
+        }
+      }
+
+      saveState();
+      closeModal();
+      showToast("Đã lưu các thay đổi thành công!");
+    }
+
+    // Toast Notification
+    function showToast(text) {
+      const toast = document.getElementById('toastMessage');
+      document.getElementById('toastText').textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Export & Import Data
+    function exportData() {
+      const jsonStr = JSON.stringify(appState, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Ke_Hoach_Dinh_Hoang_Anh_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Đã xuất file sao lưu thành công!");
+    }
+
+    function triggerImport() {
+      document.getElementById('importFileInput').click();
+    }
+
+    function handleImportFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.dailySchedule && parsed.habits) {
+            appState = parsed;
+            saveState();
+            showToast("Đã khôi phục dữ liệu kế hoạch thành công!");
+          } else {
+            alert("File không đúng cấu trúc kế hoạch!");
+          }
+        } catch (err) {
+          alert("Lỗi khi đọc file JSON!");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Web Notification Request
+    function requestNotificationPermission() {
+      if (!("Notification" in window)) {
+        alert("Trình duyệt này không hỗ trợ thông báo đẩy.");
+        return;
+      }
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          showToast("Đã kích hoạt quyền nhắc việc thành công!");
+          new Notification("LIFE MASTER - Đinh Hoàng Anh", {
+            body: "Tính năng nhắc nhở khung giờ và thói quen đã sẵn sàng!",
+            icon: "https://cdn-icons-png.flaticon.com/512/3652/3652191.png"
+          });
+        } else {
+          alert("Bạn đã từ chối nhận thông báo.");
+        }
+      });
+    }
+
+    function updateUI() {
+      renderDaily();
+      renderHabits();
+      renderFinance();
+      renderYearlyGoals();
+    }
+
+    // Initial load
+    updateUI();
+  </script>
+</body>
+</html>
